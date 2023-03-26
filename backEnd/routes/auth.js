@@ -5,34 +5,24 @@ const jwt = require("jsonwebtoken");
 
 //REGISTER
 router.post("/register", async (req, res) => {
-    try {
-        const { firstname, lastname, username, email, password } = req.body;
 
-       // Check if user with the same email or username already exists
-        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
-        if (existingUser) {
-            return res.status(401).json("User with this email or username already exists");
-        } 
-
-        // Create a new user
-        const encryptedPassword = CryptoJS.AES.encrypt(
-            password, 
+    const newUser = new User({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        username: req.body.username,
+        email: req.body.email,     
+        password: CryptoJS.AES.encrypt(
+            req.body.password, 
             process.env.PASS_SEC
-        ).toString();
+            ).toString(),
+    });
 
-        const newUser = new User({
-            firstname,
-            lastname,
-            username,
-            email,     
-            password: encryptedPassword,
-        });
-
+    try {
         const savedUser = await newUser.save(); 
         res.status(201).json(savedUser);
     } catch (err) {
-        console.error('An error occurred:', err)
-        res.status(500).json({ message: "Internal server error." });
+        console.error('An error occured:', err)
+        res.status(500).json(err);
     }
 });
 
