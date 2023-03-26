@@ -2,7 +2,7 @@ import { Search, ShoppingBagOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { logout } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { resetState } from '../redux/userRedux';
@@ -77,13 +77,12 @@ const Navbar = () => {
     if (!isLoggedIn) {
         dispatch(resetState());
       }      
-    
-    console.log(isLoggedIn);
 
-    const handleLogout = () => {
-      logout(dispatch);
-    };
-  
+      const handleLogout = () => {
+        dispatch(resetState());
+        window.location.reload();
+        return <Navigate to='/' />;
+      };
 
   return (
     <Container>
@@ -116,9 +115,12 @@ const Navbar = () => {
                   <MenuItem>
                   <Link to='/products' >CONTINUE SHOPPING</Link>
                   </MenuItem>
-                  <MenuItem>
+                  {/* <MenuItem>
                   <Link to='/logout' >LOG OUT</Link>
-                  </MenuItem>
+                  </MenuItem> */}
+                  <MenuItem>
+  <button onClick={handleLogout}>LOG OUT</button>
+</MenuItem>
                   </>
                 )}
 

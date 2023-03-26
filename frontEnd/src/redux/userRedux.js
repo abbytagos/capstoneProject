@@ -33,18 +33,6 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.error = action.payload;
     },
-    logoutStart: (state) => {
-      state.isFetching = true;
-    },
-    logoutSuccess: (state, action) => {
-      state.isFetching = false;
-      state.currentUser = null;
-      state.error = null;
-    },
-    logoutFailure: (state, action) => {
-      state.isFetching = false;
-      state.error = action.payload;
-    },
     sendmailStart: (state) => {
       state.isFetching = true;
     },
@@ -71,9 +59,6 @@ export const {
   loginStart,
   loginSuccess,
   loginFailure,
-  logoutStart,
-  logoutSuccess,
-  logoutFailure,
   sendmailStart,
   sendmailSuccess,
   sendmailFailure,

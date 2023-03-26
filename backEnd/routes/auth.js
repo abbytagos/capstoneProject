@@ -75,25 +75,6 @@ router.post("/login", async(req,res) => {
     }
 });
 
-router.post("/logout", async (req, res) => {
-    try {
-      // Clear all saved tokens
-      const user = await User.findOne({username: req.body.username});
-  
-      // Invalidate the token on the server-side
-      user.token = null;
-      await user.save();
-  
-      // Invalidate the token on the client-side
-      res.clearCookie("user");
-  
-      res.status(200).json({ message: "Logged out successfully" });
-    } catch (err) {
-      console.error('An error occurred:', err)
-      res.status(500).json(err);
-    }
-  });
-
 //SEND CONFIRMATION EMAIL
 router.post("/sendmail", async (req, res) => {  
     const API_KEY = process.env.MAILGUN_API_KEY;
