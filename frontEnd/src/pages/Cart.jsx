@@ -138,6 +138,10 @@ const Button = styled.button`
     cursor: pointer;
 `;
 
+const Error = styled.span`
+  color: red;
+`;
+
 const Cart = () => {
 
     const navigate = useNavigate();
@@ -145,6 +149,7 @@ const Cart = () => {
     const handleClick = (e) => {
         e.preventDefault();
         navigate('/checkout');
+        
     };
 
     const cart = useSelector(state => state.cart)
@@ -215,8 +220,12 @@ const Cart = () => {
                             $ {cart.total}
                             </SummaryItemPrice>
                         </SummaryItem>
+                        {!cart.total ? (
+                            <Error>Your Cart is Empty!</Error>
+                            ) : (
                         <Button onClick={handleClick}> 
                         CHECKOUT</Button>
+                        )}
                     </Summary>
 
                 </Bottom>
