@@ -139,8 +139,10 @@ const Register = () => {
                     error && <Error>{error}</Error>
                 }
             </Form>
+            <br />
             <Link to="/Login">LOGIN</Link>
-            <hr />
+            <br />
+            <br />
             <Link to="/">HOME</Link>
         </Wrapper>
     </Container>
