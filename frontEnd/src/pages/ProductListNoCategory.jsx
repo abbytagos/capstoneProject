@@ -42,7 +42,6 @@ const Option = styled.option`
 const   ProductListNoCategory = () => {
 
   const location = useLocation();
-  console.log(location);
   const cat = location.pathname.split("/")[0];
   return (
     <Container> 

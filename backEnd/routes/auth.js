@@ -76,16 +76,24 @@ router.post("/login", async(req,res) => {
 });
 
 //SEND CONFIRMATION EMAIL
-router.post("/sendmail", async (req, res) => {  
+router.post("/sendmail", async (req, res) => { 
+    const { firstname, lastname, email, deliveryaddress, phonenumber, total } = req.body;
     const API_KEY = process.env.MAILGUN_API_KEY;
     const DOMAIN = process.env.MAILGUN_DOMAIN;
     const mg = mailgun({ apiKey: API_KEY, domain: DOMAIN });
 
     const messageData = {
-        from: 'Excited User <me@samples.mailgun.org>',
-        to: 'abbytagos@gmail.com, shophomeashaven@gmail.com',
-        subject: 'Hello',
-        text: 'Testing some Mailgun awesomeness!'
+        from: "Home As Haven <shophomeashaven@gmail.com>",
+        to: "abbytagos@gmail.com, shophomeashaven@gmail.com",
+        subject: "Thank you for your order!",
+        template: "letter1",
+        'h:X-Mailgun-Variables': JSON.stringify({
+            fname: firstname,
+            lname: lastname,
+            deladdress: deliveryaddress,
+            phone: phonenumber,
+            tot: total 
+            })
     };
 
     try {

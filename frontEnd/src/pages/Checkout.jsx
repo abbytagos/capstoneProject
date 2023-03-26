@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from 'react-router-dom';
 import { Info } from "@mui/icons-material";
 import { sendmail } from "../redux/apiCalls";
+import { sendmailFailure } from "../redux/userRedux";
 
 const Container = styled.div`
     width: 100vw;
@@ -75,6 +76,7 @@ const Checkout = () => {
 
   const user = useSelector(state => state.user);
   const cart = useSelector(state => state.cart);
+  const error = useSelector(state => state.user.error);
 
   const [email, showEmail] = useState("");
   const [total, showTotal] = useState("");
@@ -91,8 +93,7 @@ const Checkout = () => {
     if (user && user.currentUser && user.currentUser.email) {
       showEmail(user.currentUser.email);
       setFirstname(user.currentUser.firstname);
-      setLastname(user.currentUser.lastname);
-      
+      setLastname(user.currentUser.lastname);   
     }
 
     if (cart && cart.products) {
@@ -103,8 +104,21 @@ const Checkout = () => {
 
 const handleClick = (e) => {
     e.preventDefault();
-    sendmail(dispatch);
-};
+
+    if (
+      deliveryaddress.trim() === "" ||
+      phonenumber.trim() === "" ||
+      deliveryaddress === null ||
+      phonenumber === null
+    ) {
+      console.log("ERROR");
+      dispatch(sendmailFailure("Delivery address or phone number must not be blank!"));
+    } else {
+      console.log("Sending email");
+      sendmail(dispatch, { firstname, lastname, email, deliveryaddress, phonenumber, total });
+      //sendmail(dispatch);
+    }    
+  }
 
   return (
     <Container>
@@ -116,14 +130,14 @@ const handleClick = (e) => {
                 <Input placeholder="Last Name" value={lastname} onChange={(e) => setLastname(e.target.value)} />
                 <Input placeholder="Delivery Address" onChange={(e) => setDeliveryaddress(e.target.value)} />
                 <Input placeholder="(Area Code) (Number)" onChange={(e) => setPhonenumber(e.target.value)} />
-                <DisplayValue>TOTAL: {total}</DisplayValue>
+                <DisplayValue>TOTAL: $ {total}</DisplayValue>
                 {/* <Button onClick={handleClick} disabled={isFetching}>  */}
                 <Button onClick={handleClick}> 
                 CONFIRM
                 </Button>
-                {/* {
+                {
                     error && <Error>{error}</Error>
-                } */}
+                }
             </Form>
             <Link to="/">HOME</Link>
         </Wrapper>
