@@ -154,14 +154,6 @@ const Cart = () => {
             <Navbar />
             <Wrapper>
                 <Title>Your Bag</Title>
-                {/* <Top>
-                    <TopButton>CONTINUE SHOPPING</TopButton>
-                    <TopTexts>
-                        <TopText>Shopping Bag (2)</TopText>
-                        <TopText>Your Wishlist (0)</TopText>
-                    </TopTexts>
-                    <TopButton type="filled" onClick={handleClick}>CHECKOUT</TopButton>
-                </Top> */}
                 <Bottom>
                     <Info>
                         {cart.products.map((product) => ( 

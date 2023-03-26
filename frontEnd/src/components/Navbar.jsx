@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { resetState } from '../redux/userRedux';
+import { resetCart } from '../redux/cartRedux';
 
 const Container = styled.div`
     height: 80px; 
@@ -81,6 +82,8 @@ const Navbar = () => {
 
       const handleLogout = () => {
         dispatch(resetState());
+        dispatch(resetCart()); 
+        window.location.reload();
         navigate('/');
       };
 
