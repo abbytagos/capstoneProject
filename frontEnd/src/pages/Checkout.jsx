@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { Info } from "@mui/icons-material";
 import { sendmail } from "../redux/apiCalls";
 import { sendmailFailure } from "../redux/userRedux";
@@ -116,8 +116,8 @@ const handleClick = (e) => {
       dispatch(sendmailFailure("Delivery address or phone number must not be blank!"));
     } else {
       console.log("Sending email");
-      sendmail(dispatch, { firstname, lastname, email, deliveryaddress, phonenumber, total });
-      navigate('/emailconfirmation')
+      //sendmail(dispatch, { firstname, lastname, email, deliveryaddress, phonenumber, total });
+      navigate('/emailconfirmation');
     }    
   }
 

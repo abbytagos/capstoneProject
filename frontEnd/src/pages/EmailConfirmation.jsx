@@ -66,11 +66,8 @@ const Error = styled.span`
 
 const Logout = () => {
 
-const { currentUser } = useSelector((state) => state.user);
-
-if (currentUser) {
-    return <Navigate to="/"/>
-}
+    const user = useSelector(state => state.user);
+    const cart = useSelector(state => state.cart);
 
   return (
 
