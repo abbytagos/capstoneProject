@@ -1,8 +1,9 @@
 import { Add, Remove } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div``;
 
@@ -130,12 +131,22 @@ const SummaryItemPrice = styled.span``;
 const Button = styled.button`
     width: 100%;
     padding: 10px;
-    background-color: black;
+    background-color: #cfc0ed;
+    border: none;
     color: white;
     font-weight: 600;
+    cursor: pointer;
 `;
 
 const Cart = () => {
+
+    const navigate = useNavigate();
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        navigate('/checkout');
+    };
+
     const cart = useSelector(state => state.cart)
     return (
         <Container>
@@ -143,14 +154,14 @@ const Cart = () => {
             <Navbar />
             <Wrapper>
                 <Title>Your Bag</Title>
-                <Top>
+                {/* <Top>
                     <TopButton>CONTINUE SHOPPING</TopButton>
                     <TopTexts>
                         <TopText>Shopping Bag (2)</TopText>
                         <TopText>Your Wishlist (0)</TopText>
                     </TopTexts>
-                    <TopButton type="filled">CHECKOUT</TopButton>
-                </Top>
+                    <TopButton type="filled" onClick={handleClick}>CHECKOUT</TopButton>
+                </Top> */}
                 <Bottom>
                     <Info>
                         {cart.products.map((product) => ( 
@@ -212,13 +223,18 @@ const Cart = () => {
                             $ {cart.total}
                             </SummaryItemPrice>
                         </SummaryItem>
-                        <Button>CHECKOUT</Button>
+                        <Button onClick={handleClick}> 
+                        CHECKOUT</Button>
                     </Summary>
 
                 </Bottom>
             </Wrapper>
         </Container> 
-    )
+    );
+
 }
+
+
+
 
 export default Cart

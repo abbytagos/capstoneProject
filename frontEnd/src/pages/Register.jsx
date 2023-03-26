@@ -74,13 +74,6 @@ const Register = () => {
     const dispatch = useDispatch();
     const { isFetching, error, currentUser } = useSelector((state) => state.user);
 
-    // console.log("username: " + username);
-    // console.log("password: " + password);
-    // console.log("password2: " + password2);
-    // console.log("firstname: " + firstname);
-    // console.log("lastname: " + lastname);
-    // console.log("email: " + email);
-
     const handleClick = (e) => {
         e.preventDefault();
         if (
@@ -99,7 +92,7 @@ const Register = () => {
     };
 
     if (currentUser) {
-        return <Navigate to="/"/>
+        return <Navigate to="/login"/>
     }
 
   return (
@@ -139,10 +132,8 @@ const Register = () => {
                     error && <Error>{error}</Error>
                 }
             </Form>
-            <br />
             <Link to="/Login">LOGIN</Link>
-            <br />
-            <br />
+            <hr />
             <Link to="/">HOME</Link>
         </Wrapper>
     </Container>

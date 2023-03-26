@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
+    "mailgun": "^0.5.0",
+    "mailgun-js": "^0.22.0",
+    "mailgun.js": "^8.2.1",
     "redux-persist": "^6.0.0"
   }
 }

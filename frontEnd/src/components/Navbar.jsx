@@ -2,10 +2,10 @@ import { Search, ShoppingBagOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import React from 'react'
 import styled from 'styled-components'
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import { BrowserRouter,Routes,Route,useNavigate,Link } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
+import { logout } from "../redux/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
+import { resetState } from '../redux/userRedux';
 
 const Container = styled.div`
     height: 80px; 
@@ -67,15 +67,25 @@ const MenuItem = styled.div`
 
  
 const Navbar = () => {
+    const user = useSelector(state => state.user);
     const quantity = useSelector(state => state.cart.quantity)
+    
+    const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
 
+    const dispatch = useDispatch();
+
+    if (!isLoggedIn) {
+        dispatch(resetState());
+      }      
+    
+    console.log(isLoggedIn);
+
+    const handleLogout = () => {
+      logout(dispatch);
+    };
+  
 
   return (
-    // <BrowserRouter>
-    // <Routes>
-    //     <Route path='/login' element={<Login/>} />
-    //     <Route path='/register' element={<Register/>} />
-    // </Routes>
     <Container>
         <Wrapper>
             <Left>
@@ -84,15 +94,34 @@ const Navbar = () => {
                     <Search style={{color:"gray", fontSize:16}}/>
                 </SearchContainer>
             </Left>
-            <Center><Logo>home as haven</Logo></Center>
+              <Center>
+                <Link to="/" style={{ textDecoration: 'none' }}>
+                  <Logo>home as haven</Logo>
+                </Link>
+              </Center>
             <Right>
 
-                <MenuItem>
-                    <Link to="/register">REGISTER</Link>
-                </MenuItem>
-                <MenuItem>
-                    <Link to="/login">LOG IN</Link>
-                </MenuItem>
+                  {!isLoggedIn ? (
+                  <> 
+                    <MenuItem>
+                      <Link to='/register'>REGISTER</Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link to='/login'>LOG IN</Link>
+                    </MenuItem>
+                  </>
+                ) : (
+                  <>
+                  Welcome {user.currentUser.firstname}
+                  <MenuItem>
+                  <Link to='/products' >CONTINUE SHOPPING</Link>
+                  </MenuItem>
+                  <MenuItem>
+                  <Link to='/logout' >LOG OUT</Link>
+                  </MenuItem>
+                  </>
+                )}
+
                 <Link to="/cart" >
                 <MenuItem>
                     <Badge badgeContent={quantity} color="primary">
@@ -103,7 +132,6 @@ const Navbar = () => {
         </Right>
         </Wrapper>
     </Container>
-    // </BrowserRouter>
   )
 }
 

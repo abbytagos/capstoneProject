@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
+const mailgun = require("mailgun-js");
 
 //REGISTER
 router.post("/register", async (req, res) => {
@@ -35,7 +36,6 @@ router.post("/register", async (req, res) => {
         res.status(500).json({ message: "Internal server error." });
     }
 });
-
 
 //LOGIN
 
@@ -74,5 +74,54 @@ router.post("/login", async(req,res) => {
         res.status(500).json(err);
     }
 });
+
+router.post("/logout", async (req, res) => {
+    try {
+      // Clear all saved tokens
+      const user = await User.findOne({username: req.body.username});
+  
+      // Invalidate the token on the server-side
+      user.token = null;
+      await user.save();
+  
+      // Invalidate the token on the client-side
+      res.clearCookie("user");
+  
+      res.status(200).json({ message: "Logged out successfully" });
+    } catch (err) {
+      console.error('An error occurred:', err)
+      res.status(500).json(err);
+    }
+  });
+
+//SEND CONFIRMATION EMAIL
+router.post("/sendmail", async (req, res) => {  
+    const API_KEY = process.env.MAILGUN_API_KEY;
+    const DOMAIN = process.env.MAILGUN_DOMAIN;
+    const mg = mailgun({ apiKey: API_KEY, domain: DOMAIN });
+
+    const messageData = {
+        from: 'Excited User <me@samples.mailgun.org>',
+        to: 'abbytagos@gmail.com, shophomeashaven@gmail.com',
+        subject: 'Hello',
+        text: 'Testing some Mailgun awesomeness!'
+    };
+
+    try {
+        mg.messages().send(messageData, function (error, body) {
+            if (error) {
+                console.error(error);
+                res.status(500).json({ message: "Internal server error." });
+            } else {
+                console.log(body);
+                res.status(200).json({ message: "Email sent successfully" });
+            }
+        });
+    } catch (err) {
+        console.error('An error occurred:', err)
+        res.status(500).json({ message: "Internal server error." });
+    }
+});
+  
 
 module.exports = router;

@@ -1,5 +1,7 @@
 import { loginFailure, loginStart, loginSuccess } from "./userRedux";
 import { registerFailure, registerStart, registerSuccess } from "./userRedux";
+import { logoutFailure, logoutSuccess } from "./userRedux";
+import { sendmailFailure, sendmailSuccess } from "./userRedux";
 import { publicRequest, userRequest } from "../requestMethods";
 
 export const login = async (dispatch, user) => {
@@ -19,5 +21,23 @@ export const register = async (dispatch, user) => {
     dispatch(registerSuccess(res.data));
   } catch (err) {
     dispatch(registerFailure(err?.response?.data || 'An unknown error occurred'));
+  }
+};
+
+export const logout = async (dispatch, user) => {
+  try {
+    const res = await publicRequest.post("/auth/logout", user);
+    dispatch(logoutSuccess(res.data));
+  } catch (err) {
+    dispatch(logoutFailure(err?.response?.data || 'An unknown error occurred'));
+  }
+};
+
+export const sendmail = async (dispatch, user) => {
+  try {
+    const res = await publicRequest.post("/auth/sendmail", user);
+    dispatch(sendmailSuccess(res.data));
+  } catch (err) {
+    dispatch(sendmailFailure(err?.response?.data || 'An unknown error occurred'));
   }
 };
