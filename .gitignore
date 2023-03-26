@@ -1,0 +1,10 @@
+.DS_Store
+backEnd/.DS_Store
+backEnd/.env
+backEnd/node_modules/
+capstone.pptx
+frontEnd/.DS_Store
+frontEnd/images/
+frontEnd/node_modules/
+.vscode/
+node_modules/
