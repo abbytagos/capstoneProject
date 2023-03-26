@@ -92,7 +92,7 @@ const Login = () => {
   return (
     <Container>
         <Wrapper>
-            <Title>SIGN IN</Title>
+            <Title>SIGN IN TO YOUR ACCOUNT</Title>
             <Form>
                 <Input placeholder="username"
                 onChange={(e) => setUsername(e.target.value)}
@@ -108,7 +108,6 @@ const Login = () => {
                     error && <Error>{error}</Error>
                 }
                 <Link>FORGOT PASSWORD?</Link>
-                <Link>CREATE A NEW ACCOUNT</Link>
                 <Link to="/Register">REGISTER</Link>
                 <Link to="/">HOME</Link>
             </Form>

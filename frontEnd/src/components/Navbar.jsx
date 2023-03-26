@@ -2,8 +2,7 @@ import { Search, ShoppingBagOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import React from 'react'
 import styled from 'styled-components'
-import { Link, Navigate } from 'react-router-dom';
-import { logout } from "../redux/apiCalls";
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { resetState } from '../redux/userRedux';
 
@@ -73,6 +72,8 @@ const Navbar = () => {
     const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     if (!isLoggedIn) {
         dispatch(resetState());
@@ -80,8 +81,19 @@ const Navbar = () => {
 
       const handleLogout = () => {
         dispatch(resetState());
-        window.location.reload();
-        return <Navigate to='/' />;
+        navigate('/');
+      };
+
+      const handleShopmore = () => {
+        navigate('/products');
+      };
+
+      const handleRegister = () => {
+        navigate('/register');
+      };
+
+      const handleLogin = () => {
+        navigate('/login');
       };
 
   return (
@@ -103,24 +115,21 @@ const Navbar = () => {
                   {!isLoggedIn ? (
                   <> 
                     <MenuItem>
-                      <Link to='/register'>REGISTER</Link>
+                      <button onClick={handleRegister}>REGISTER</button>
                     </MenuItem>
                     <MenuItem>
-                      <Link to='/login'>LOG IN</Link>
+                      <button onClick={handleLogin}>LOG IN</button>
                     </MenuItem>
                   </>
                 ) : (
                   <>
                   Welcome {user.currentUser.firstname}
                   <MenuItem>
-                  <Link to='/products' >CONTINUE SHOPPING</Link>
+                  <button onClick={handleShopmore}>CONTINUE SHOPPING</button>
                   </MenuItem>
-                  {/* <MenuItem>
-                  <Link to='/logout' >LOG OUT</Link>
-                  </MenuItem> */}
                   <MenuItem>
-  <button onClick={handleLogout}>LOG OUT</button>
-</MenuItem>
+                  <button onClick={handleLogout}>LOG OUT</button>
+                </MenuItem>
                   </>
                 )}
 
