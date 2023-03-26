@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Info } from "@mui/icons-material";
 import { sendmail } from "../redux/apiCalls";
 import { sendmailFailure } from "../redux/userRedux";
@@ -88,6 +88,7 @@ const Checkout = () => {
   const [phonenumber, setPhonenumber] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   useEffect(() => {
     if (user && user.currentUser && user.currentUser.email) {
@@ -116,7 +117,7 @@ const handleClick = (e) => {
     } else {
       console.log("Sending email");
       sendmail(dispatch, { firstname, lastname, email, deliveryaddress, phonenumber, total });
-      //sendmail(dispatch);
+      navigate('/emailconfirmation')
     }    
   }
 

@@ -7,7 +7,7 @@ import Product from './pages/Product';
 import Cart from './pages/Cart';
 import Logout from "./pages/Logout";
 import Checkout from "./pages/Checkout";
-import SendMail from "./pages/SendMail";
+import EmailConfirmation from "./pages/EmailConfirmation";
 import ProductListNoCategory from "./pages/ProductListNoCategory";
 import { useSelector } from "react-redux";
 
@@ -25,7 +25,7 @@ const App = () => {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/sendmail" element={<SendMail />} />
+        <Route path="/emailconfirmation" element={<EmailConfirmation />} />
       </Routes>
   </BrowserRouter>
   );
