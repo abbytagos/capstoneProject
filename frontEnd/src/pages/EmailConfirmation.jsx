@@ -63,9 +63,11 @@ const HomeLink = styled(Link)`
   margin-bottom: 10px;
 `;
 
+
 const EmailConfirmation = () => {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
+
 
   console.log(user);
   console.log(cart);
@@ -81,6 +83,7 @@ const EmailConfirmation = () => {
       totalPrice += product.price * product.quantity;
     }
   }
+
 
   return (
     <Container>
@@ -113,6 +116,7 @@ const EmailConfirmation = () => {
       </Wrapper>
     </Container>
   );
+  
 };
 
 export default EmailConfirmation;
