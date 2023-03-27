@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { resetState } from '../redux/userRedux';
 import { resetCart } from '../redux/cartRedux';
+import { sendmailStart } from '../redux/userRedux';
 
 const Container = styled.div`
     height: 80px; 
@@ -71,13 +72,16 @@ const Navbar = () => {
     const quantity = useSelector(state => state.cart.quantity)
 
     const isEmailed = useSelector((state) => state.user.isEmailed);
-    console.log(isEmailed);
     
     const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    if (isEmailed) {
+      dispatch(resetCart()); 
+      dispatch(sendmailStart());
+    }
 
     if (!isLoggedIn) {
         dispatch(resetState());

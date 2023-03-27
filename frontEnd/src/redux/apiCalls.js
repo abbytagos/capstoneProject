@@ -1,6 +1,6 @@
 import { loginFailure, loginStart, loginSuccess } from "./userRedux";
 import { registerFailure, registerStart, registerSuccess } from "./userRedux";
-import { sendmailFailure, sendmailSuccess } from "./userRedux";
+import { sendmailStart, sendmailFailure, sendmailSuccess } from "./userRedux";
 import { publicRequest, userRequest } from "../requestMethods";
 
 export const login = async (dispatch, user) => {

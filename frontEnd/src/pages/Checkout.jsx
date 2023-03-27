@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
-import { sendmailFailure, sendmailSuccess } from "../redux/userRedux";
+import { sendmailStart, sendmailFailure, sendmailSuccess } from "../redux/userRedux";
 
 const Container = styled.div`
     width: 100vw;

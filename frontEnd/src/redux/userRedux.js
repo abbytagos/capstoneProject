@@ -38,11 +38,11 @@ const userSlice = createSlice({
     },
     sendmailStart: (state) => {
       state.isFetching = true;
+      state.isEmailed = false;
     },
     sendmailSuccess: (state, action) => {
       state.isEmailed = true;
       state.isFetching = false;
-      state.currentUser = action.payload;
     },
     sendmailFailure: (state, action) => {
       state.isFetching = false;
