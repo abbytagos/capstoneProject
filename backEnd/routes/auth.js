@@ -81,10 +81,10 @@ router.post("/sendmail", async (req, res) => {
     const API_KEY = process.env.MAILGUN_API_KEY;
     const DOMAIN = process.env.MAILGUN_DOMAIN;
     const mg = mailgun({ apiKey: API_KEY, domain: DOMAIN });
-
+    const emails = email + ", shophomeashaven@gmail.com";
     const messageData = {
         from: "Home As Haven <shophomeashaven@gmail.com>",
-        to: "abbytagos@gmail.com, shophomeashaven@gmail.com",
+        to: emails,
         subject: "Thank you for your order!",
         template: "letter1",
         'h:X-Mailgun-Variables': JSON.stringify({

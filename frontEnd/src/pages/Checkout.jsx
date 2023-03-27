@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, Navigate } from 'react-router-dom';
-import { Info } from "@mui/icons-material";
-import { sendmail } from "../redux/apiCalls";
+import { Link, useNavigate } from 'react-router-dom';
 import { sendmailFailure } from "../redux/userRedux";
 
 const Container = styled.div`
@@ -92,9 +90,9 @@ const Checkout = () => {
   
   useEffect(() => {
     if (user && user.currentUser && user.currentUser.email) {
-      showEmail(user.currentUser.email);
-      setFirstname(user.currentUser.firstname);
-      setLastname(user.currentUser.lastname);   
+      showEmail(user.currentUser?.email);
+      setFirstname(user.currentUser?.firstname);
+      setLastname(user.currentUser?.lastname);   
     }
 
     if (cart && cart.products) {
@@ -132,7 +130,6 @@ const handleClick = (e) => {
                 <Input placeholder="Delivery Address" onChange={(e) => setDeliveryaddress(e.target.value)} />
                 <Input placeholder="(Area Code) (Number)" onChange={(e) => setPhonenumber(e.target.value)} />
                 <DisplayValue>TOTAL: $ {total}</DisplayValue>
-                {/* <Button onClick={handleClick} disabled={isFetching}>  */}
                 <Button onClick={handleClick}> 
                 CONFIRM
                 </Button>

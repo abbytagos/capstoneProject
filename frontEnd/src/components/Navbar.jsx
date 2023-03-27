@@ -2,7 +2,7 @@ import { Search, ShoppingBagOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import React from 'react'
 import styled from 'styled-components'
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { resetState } from '../redux/userRedux';
 import { resetCart } from '../redux/cartRedux';
