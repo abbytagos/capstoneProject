@@ -53,6 +53,9 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.error = null;
     },
+    resetErrMsg (state, action) {
+      state.error = action.payload;
+    }
   },
 });
 
@@ -67,6 +70,7 @@ export const {
   sendmailSuccess,
   sendmailFailure,
   resetState,
+  resetErrMsg
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -4,6 +4,7 @@ import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
+import { resetErrMsg } from "../redux/userRedux";
 
 const Container = styled.div``;
 
@@ -145,11 +146,12 @@ const Error = styled.span`
 const Cart = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleClick = (e) => {
         e.preventDefault();
-        navigate('/checkout');
-        
+        dispatch(resetErrMsg("Please provide your shipping information"));
+        navigate('/checkout');        
     };
 
     const cart = useSelector(state => state.cart)
