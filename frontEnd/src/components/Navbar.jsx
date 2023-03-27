@@ -69,6 +69,9 @@ const MenuItem = styled.div`
 const Navbar = () => {
     const user = useSelector(state => state.user);
     const quantity = useSelector(state => state.cart.quantity)
+
+    const isEmailed = useSelector((state) => state.user.isEmailed);
+    console.log(isEmailed);
     
     const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
 

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentUser: null,
   isFetching: false,
+  isEmailed: false,
   error: null,
 };
 
@@ -12,6 +13,7 @@ const userSlice = createSlice({
   reducers: {
     registerStart: (state) => {
       state.isFetching = true;
+      state.isEmailed = false;
     },
     registerSuccess: (state, action) => {
       state.isFetching = false;
@@ -24,6 +26,7 @@ const userSlice = createSlice({
 
     loginStart: (state) => {
       state.isFetching = true;
+      state.isEmailed = false;
     },
     loginSuccess: (state, action) => {
       state.isFetching = false;

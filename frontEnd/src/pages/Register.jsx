@@ -64,6 +64,13 @@ const Error = styled.span`
   color: red;
 `;
 
+const HomeLink = styled(Link)`
+  font-size: 16px;
+  color: blue;
+  text-decoration: none;
+  margin-bottom: 10px;
+`;
+
 const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -72,7 +79,7 @@ const Register = () => {
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
     const dispatch = useDispatch();
-    const { isFetching, error, currentUser } = useSelector((state) => state.user);
+    const { isEmailed, isFetching, error, currentUser } = useSelector((state) => state.user);
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -133,9 +140,9 @@ const Register = () => {
                 }
             </Form>
             <br/><br/>
-            <Link to="/Login">LOGIN</Link>
+            <HomeLink to="/Login">Registered? Login Here</HomeLink>
             <br/>
-            <Link to="/">HOME</Link>
+            <HomeLink to="/">Back to Home</HomeLink>
         </Wrapper>
     </Container>
   )

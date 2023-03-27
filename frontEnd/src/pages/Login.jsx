@@ -61,19 +61,18 @@ const Error = styled.span`
   color: red;
 `;
 
-// const Link = styled.a`
-//     margin: 5px 0px;
-//     font-size: 12px; 
-//     text-decoration: underline;
-//     cursor: pointer;
-// `;
-
+const HomeLink = styled(Link)`
+  font-size: 16px;
+  color: blue;
+  text-decoration: none;
+  margin-bottom: 10px;
+`;
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const { isFetching, error, currentUser } = useSelector((state) => state.user);
+    const { isEmailed, isFetching, error, currentUser } = useSelector((state) => state.user);
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -107,10 +106,10 @@ const Login = () => {
                 {
                     error && <Error>{error}</Error>
                 }
-                <Link>FORGOT PASSWORD?</Link>
-                <Link to="/Register">REGISTER</Link>
-                <Link to="/">HOME</Link>
             </Form>
+            <HomeLink to="/Register">Register Here</HomeLink>
+            <br />
+            <HomeLink to="/">Back to Home</HomeLink>
         </Wrapper>
     </Container>
    
