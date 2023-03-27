@@ -35,6 +35,7 @@ const { currentUser } = useSelector((state) => state.user);
 if (currentUser) {
     window.location.reload();
     window.location.reload();
+    window.location.reload();
     return <Navigate to="/"/>
 }
 

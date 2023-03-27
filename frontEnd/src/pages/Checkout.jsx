@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
-import { sendmailFailure } from "../redux/userRedux";
+import { sendmailFailure, sendmailSuccess } from "../redux/userRedux";
 
 const Container = styled.div`
     width: 100vw;
@@ -68,6 +68,13 @@ const DisplayValue = styled.div`
   font-size: 16px;
 `;
 
+const HomeLink = styled(Link)`
+  font-size: 16px;
+  color: blue;
+  text-decoration: none;
+  margin-bottom: 10px;
+`;
+
 
 const Checkout = () => {
 
@@ -114,6 +121,7 @@ const handleClick = (e) => {
       dispatch(sendmailFailure("Delivery address or phone number must not be blank!"));
     } else {
       console.log("Sending email");
+      dispatch(sendmailSuccess());
       //sendmail(dispatch, { firstname, lastname, email, deliveryaddress, phonenumber, total });
       navigate('/emailconfirmation');
     }    
@@ -137,7 +145,7 @@ const handleClick = (e) => {
                     error && <Error>{error}</Error>
                 }
             </Form>
-            <Link to="/">HOME</Link>
+            <HomeLink to="/">Back to Home</HomeLink>
         </Wrapper>
     </Container>
   )
