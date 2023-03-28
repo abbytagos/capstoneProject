@@ -125,6 +125,7 @@ const Checkout = () => {
       );
     } else {
       console.log("Sending email");
+      sendmail(dispatch, { firstname, lastname, email, deliveryaddress, phonenumber, total });
       dispatch(
         sendmailSuccess({
           firstname,
@@ -133,7 +134,7 @@ const Checkout = () => {
           deliveryaddress,
           phonenumber,
           total,
-        })
+        }) 
       );
       navigate("/emailconfirmation");
     }
