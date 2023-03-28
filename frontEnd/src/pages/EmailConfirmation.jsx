@@ -110,7 +110,7 @@ const EmailConfirmation = () => {
         Name: {user.currentUser?.firstname} {user.currentUser?.lastname}<br />
         Delivery Address: {user.currentUser?.deliveryaddress} <br />
         Email: {user.currentUser?.email} <br />
-        Phone: {user.currentUser?.phone}
+        Phone: {user.currentUser?.phonenumber}
         </div>
         <div>Payment instructions will be sent to your email shortly.</div>
       </Wrapper>

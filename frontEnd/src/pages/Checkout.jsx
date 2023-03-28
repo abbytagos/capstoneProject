@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
-import { sendmailStart, sendmailFailure, sendmailSuccess } from "../redux/userRedux";
+import { sendmailFailure, sendmailSuccess } from "../redux/userRedux";
 
 const Container = styled.div`
     width: 100vw;
@@ -99,18 +99,20 @@ const Checkout = () => {
     if (user && user.currentUser && user.currentUser.email) {
       showEmail(user.currentUser?.email);
       setFirstname(user.currentUser?.firstname);
-      setLastname(user.currentUser?.lastname);   
+      setLastname(user.currentUser?.lastname);
+      setDeliveryaddress(user.currentUser?.deliveryaddress || ""); // set initial value to empty string if undefined
+      setPhonenumber(user.currentUser?.phonenumber || ""); // set initial value to empty string if undefined
     }
-
+  
     if (cart && cart.products) {
-        showTotal(cart.total);
-      }
-
+      showTotal(cart.total);
+    }
   }, [user, cart]);
+  
 
-const handleClick = (e) => {
+  const handleClick = (e) => {
     e.preventDefault();
-
+  
     if (
       deliveryaddress.trim() === "" ||
       phonenumber.trim() === "" ||
@@ -118,14 +120,25 @@ const handleClick = (e) => {
       phonenumber === null
     ) {
       console.log("ERROR");
-      dispatch(sendmailFailure("Delivery address or phone number must not be blank!"));
+      dispatch(
+        sendmailFailure("Delivery address or phone number must not be blank!")
+      );
     } else {
       console.log("Sending email");
-      dispatch(sendmailSuccess());
-      //sendmail(dispatch, { firstname, lastname, email, deliveryaddress, phonenumber, total });
-      navigate('/emailconfirmation');
-    }    
-  }
+      dispatch(
+        sendmailSuccess({
+          firstname,
+          lastname,
+          email,
+          deliveryaddress,
+          phonenumber,
+          total,
+        })
+      );
+      navigate("/emailconfirmation");
+    }
+  };
+  
 
   return (
     <Container>
