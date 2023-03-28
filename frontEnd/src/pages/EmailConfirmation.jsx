@@ -112,7 +112,7 @@ const EmailConfirmation = () => {
         Email: {user.currentUser?.email} <br />
         Phone: {user.currentUser?.phonenumber}
         </div>
-        <div>Payment instructions will be sent to your email shortly.</div>
+        <div>Payment instructions has been sent to you, If you haven't recieved it, please contact us.</div>
       </Wrapper>
     </Container>
   );

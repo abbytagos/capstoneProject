@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
 import { sendmailFailure, sendmailSuccess } from "../redux/userRedux";
+import { sendmail } from "../redux/apiCalls";
 
 const Container = styled.div`
     width: 100vw;
@@ -125,7 +126,22 @@ const Checkout = () => {
       );
     } else {
       console.log("Sending email");
-      sendmail(dispatch, { firstname, lastname, email, deliveryaddress, phonenumber, total });
+      const companyEmail = "shophomeashaven@gmail.com";
+      const emails = email + ", " + companyEmail;
+      const messageData = {
+        from: "Home As Haven <" + companyEmail + ">",
+        to: emails,
+        subject: "Thank you for your order!",
+        template: "letter1",
+        'h:X-Mailgun-Variables': JSON.stringify({
+            fname: firstname,
+            lname: lastname,
+            deladdress: deliveryaddress,
+            phone: phonenumber,
+            tot: total 
+            })
+      };
+      sendmail(dispatch, { messageData });
       dispatch(
         sendmailSuccess({
           firstname,
