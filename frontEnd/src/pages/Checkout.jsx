@@ -131,7 +131,7 @@ const Checkout = () => {
       const messageData = {
         from: "Home As Haven <" + companyEmail + ">",
         to: emails,
-        subject: "Thank you for your order!",
+        subject: "Payment Instruction For your Order",
         template: "letter1",
         'h:X-Mailgun-Variables': JSON.stringify({
             fname: firstname,

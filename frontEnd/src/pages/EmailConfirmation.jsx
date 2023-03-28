@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import ReactDOMServer from "react-dom/server";
+import { sendmail } from "../redux/apiCalls";
 
 const Container = styled.div`
   width: 100vw;
@@ -69,9 +71,9 @@ const EmailConfirmation = () => {
   const cart = useSelector((state) => state.cart);
 
 
-  console.log(user);
-  console.log(cart);
-  console.log(cart.products);
+  console.log('user:', user);
+  console.log('cart:', cart);
+
 
   let products = [];
   let totalPrice = 0;
@@ -83,6 +85,54 @@ const EmailConfirmation = () => {
       totalPrice += product.price * product.quantity;
     }
   }
+
+  const emailBody = ReactDOMServer.renderToString(
+    <Container>
+      <Wrapper>
+        <Title>Thank you for your order!</Title>
+        <ProductsWrapper>
+          <h3>Products</h3>
+          {products.map((product) => (
+            <Product key={product._id}>
+              <ProductTitle>{product.title}</ProductTitle>
+              <ProductQuantity>Quantity: {product.quantity}</ProductQuantity>
+              <ProductPrice>
+                ${product.price.toFixed(2)} x {product.quantity} = ${(product.price * product.quantity).toFixed(2)}
+              </ProductPrice>
+            </Product>
+          ))}
+        </ProductsWrapper>
+        <TotalWrapper>
+          <h3>Total</h3>
+          ${totalPrice.toFixed(2)}
+        </TotalWrapper>
+        <div>
+          Name: {user.currentUser?.firstname} {user.currentUser?.lastname}<br />
+          Delivery Address: {user.currentUser?.deliveryaddress} <br />
+          Email: {user.currentUser?.email} <br />
+          Phone: {user.currentUser?.phonenumber}
+        </div>
+        <div>Payment instructions has been sent to you, If you haven't recieved it, please contact us.</div>
+      </Wrapper>
+    </Container>
+  );
+
+  console.log("Sending email");
+
+  const companyEmail = "shophomeashaven@gmail.com";
+  const emails = user.currentUser?.email + ", " + companyEmail;
+
+  // Mailgun email data
+  const messageData = {
+    from: "Home As Haven <" + companyEmail + ">",
+    to: emails,
+    subject: "Your order confirmation",
+    html: emailBody,
+  };
+  
+  // Send email using Mailgun API
+  const dispatch = useDispatch();
+  sendmail(dispatch, { messageData });
 
 
   return (
