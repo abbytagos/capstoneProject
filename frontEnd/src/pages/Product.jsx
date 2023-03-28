@@ -6,7 +6,8 @@ import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
 import { addProduct } from "../redux/cartRedux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div``;  
 
@@ -88,6 +89,9 @@ const Product = () => {
     const [quantity, setQuantity] = useState(0);
     const dispatch = useDispatch();
 
+    const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
+    const navigate = useNavigate();
+
   useEffect(() => {
     const getProduct = async () => {
       try {
@@ -109,6 +113,7 @@ const Product = () => {
   const handleClick = () => {
     //UPDATE CART
     dispatch(addProduct({ ...product, quantity })); //product quantity NOT cart
+    if(!isLoggedIn) { navigate(-1); };
   };
  
   return (
