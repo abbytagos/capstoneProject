@@ -77,7 +77,7 @@ router.post("/login", async(req,res) => {
 
 //SEND CONFIRMATION EMAIL
 router.post("/sendmail", async (req, res) => { 
-    const { messageData } = req.body;
+    const { messageData, location } = req.body;
     const API_KEY = process.env.MAILGUN_API_KEY;
     const DOMAIN = process.env.MAILGUN_DOMAIN;
     const mg = mailgun({ apiKey: API_KEY, domain: DOMAIN });
@@ -88,7 +88,7 @@ router.post("/sendmail", async (req, res) => {
                 res.status(500).json({ message: "Internal server error." });
             } else {
                 console.log(body);
-                res.status(200).json({ message: "Email sent successfully" });
+                res.status(200).json({ message: location + " - Email sent successfully" });
             }
         });
     } catch (err) {

@@ -5,6 +5,7 @@ import ReactDOMServer from "react-dom/server";
 import { sendmail } from "../redux/apiCalls";
 import { Navigate } from 'react-router-dom';
 import { useEffect } from "react";
+import { useLocation } from 'react-router';
 
 const Container = styled.div`
   width: 100vw;
@@ -72,15 +73,11 @@ const EmailConfirmation = () => {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
+
   const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
 
-
-
-  console.log('user:', user);
-  console.log('cart:', cart);
-
   useEffect(() => {
-    if (!user.currentUser) {
+    if (!isLoggedIn) {
       navigate('/login');
     }
   }, [user, navigate]);
@@ -129,8 +126,6 @@ const EmailConfirmation = () => {
     </Container>
   );
 
-  console.log("-----Sending email-----");
-
   const companyEmail = "shophomeashaven@gmail.com";
   const emails = user.currentUser?.email + ", " + companyEmail;
 
@@ -143,38 +138,50 @@ const EmailConfirmation = () => {
   };
   
   // Send email using Mailgun API
-  // const dispatch = useDispatch();
-  // sendmail(dispatch, { messageData });
+  //const location = useLocation();
+  //const dispatch = useDispatch();
+  if (user.currentUser?.username) {
+    console.log("sending email debug");
+    //sendmail(dispatch, { messageData, location });
+  }
 
   return (
     <Container>
       <Wrapper>
-        <Title>Thank you for your order!</Title>
-        <HomeLink to="/">Back to Home</HomeLink>
-        <ProductsWrapper>
-          <h3>Products</h3>
-          {products.map((product) => (
-            <Product key={product._id}>
-              <ProductTitle>{product.title}</ProductTitle>
-              <ProductQuantity>Quantity: {product.quantity}</ProductQuantity>
-              <ProductPrice>
-                ${product.price.toFixed(2)} x {product.quantity} = ${(product.price * product.quantity).toFixed(2)}
-              </ProductPrice>
-            </Product>
-          ))}
-        </ProductsWrapper>
-        <TotalWrapper>
-          <h3>Total</h3>
-          ${totalPrice.toFixed(2)}
-        </TotalWrapper>
-        <div>
-        Name: {user.currentUser?.firstname} {user.currentUser?.lastname}<br />
-        Delivery Address: {user.currentUser?.deliveryaddress} <br />
-        Email: {user.currentUser?.email} <br />
-        Phone: {user.currentUser?.phonenumber}
-        </div>
-        <div>Payment instructions has been sent to you, If you haven't recieved it, please contact us.</div>
-      </Wrapper>
+      {!isLoggedIn ? (
+        <>
+          <Title>You are not logged-in. Redirecting...</Title>
+        </>
+        ) : (
+        <>
+          <Title>Thank you for your order!</Title>
+          <HomeLink to="/">Back to Home</HomeLink>
+          <ProductsWrapper>
+            <h3>Products</h3>
+            {products.map((product) => (
+              <Product key={product._id}>
+                <ProductTitle>{product.title}</ProductTitle>
+                <ProductQuantity>Quantity: {product.quantity}</ProductQuantity>
+                <ProductPrice>
+                  ${product.price.toFixed(2)} x {product.quantity} = ${(product.price * product.quantity).toFixed(2)}
+                </ProductPrice>
+              </Product>
+            ))}
+          </ProductsWrapper>
+          <TotalWrapper>
+            <h3>Total</h3>
+            ${totalPrice.toFixed(2)}
+          </TotalWrapper>
+          <div>
+          Name: {user.currentUser?.firstname} {user.currentUser?.lastname}<br />
+          Delivery Address: {user.currentUser?.deliveryaddress} <br />
+          Email: {user.currentUser?.email} <br />
+          Phone: {user.currentUser?.phonenumber}
+          </div>
+          <div>Payment instructions has been sent to you, If you haven't recieved it, please contact us.</div>
+        </>
+        )}
+      </Wrapper> 
     </Container>
   );
   

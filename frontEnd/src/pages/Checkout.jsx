@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
 import { sendmailFailure, sendmailSuccess } from "../redux/userRedux";
 import { sendmail } from "../redux/apiCalls";
+import { useLocation } from 'react-router';
 
 const Container = styled.div`
     width: 100vw;
@@ -84,10 +85,9 @@ const Checkout = () => {
   const cart = useSelector(state => state.cart);
   const error = useSelector(state => state.user.error);
 
+  const [username, setUsername] = useState("");
   const [email, showEmail] = useState("");
   const [total, showTotal] = useState("");
-  
-
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [deliveryaddress, setDeliveryaddress] = useState("");
@@ -97,7 +97,8 @@ const Checkout = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    if (user && user.currentUser && user.currentUser.email) {
+    if (user && user.currentUser && user.currentUser.email && user.currentUser.username) {
+      setUsername(user.currentUser.username);
       showEmail(user.currentUser?.email);
       setFirstname(user.currentUser?.firstname);
       setLastname(user.currentUser?.lastname);
@@ -141,15 +142,17 @@ const Checkout = () => {
             tot: total 
             })
       };
-      sendmail(dispatch, { messageData });
+      const location = useLocation();
+      sendmail(dispatch, { messageData, location });
       dispatch(
         sendmailSuccess({
+          username,
           firstname,
           lastname,
           email,
           deliveryaddress,
           phonenumber,
-          total,
+          total
         }) 
       );
       navigate("/emailconfirmation");
@@ -174,6 +177,7 @@ const Checkout = () => {
                 {
                     error && <Error>{error}</Error>
                 }
+                <input type="hidden" name="username" value={username} />
             </Form>
             <HomeLink to="/">Back to Home</HomeLink>
         </Wrapper>
