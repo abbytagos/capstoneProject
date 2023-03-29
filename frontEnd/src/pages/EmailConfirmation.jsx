@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ReactDOMServer from "react-dom/server";
 import { sendmail } from "../redux/apiCalls";
+import { Navigate } from 'react-router-dom';
+import { useEffect } from "react";
 
 const Container = styled.div`
   width: 100vw;
@@ -69,10 +71,20 @@ const HomeLink = styled(Link)`
 const EmailConfirmation = () => {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
+
 
 
   console.log('user:', user);
   console.log('cart:', cart);
+
+  useEffect(() => {
+    if (!user.currentUser) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
 
 
   let products = [];
@@ -117,7 +129,7 @@ const EmailConfirmation = () => {
     </Container>
   );
 
-  console.log("Sending email");
+  console.log("-----Sending email-----");
 
   const companyEmail = "shophomeashaven@gmail.com";
   const emails = user.currentUser?.email + ", " + companyEmail;
@@ -131,9 +143,8 @@ const EmailConfirmation = () => {
   };
   
   // Send email using Mailgun API
-  const dispatch = useDispatch();
-  sendmail(dispatch, { messageData });
-
+  // const dispatch = useDispatch();
+  // sendmail(dispatch, { messageData });
 
   return (
     <Container>

@@ -147,11 +147,18 @@ const Cart = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
 
+    //CHECKOUT CLICK
     const handleClick = (e) => {
         e.preventDefault();
         dispatch(resetErrMsg("Please provide your shipping information"));
-        navigate('/checkout');        
+        if (isLoggedIn) {
+            navigate('/checkout');
+          } else {
+            navigate('/login');
+          }
+    
     };
 
     const cart = useSelector(state => state.cart)

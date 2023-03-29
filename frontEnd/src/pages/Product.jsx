@@ -113,7 +113,7 @@ const Product = () => {
   const handleClick = () => {
     //UPDATE CART
     dispatch(addProduct({ ...product, quantity })); //product quantity NOT cart
-    if(!isLoggedIn) { navigate(-1); };
+    if(!isLoggedIn) { navigate("/products"); };
   };
  
   return (
