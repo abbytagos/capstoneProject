@@ -176,16 +176,6 @@ const Cart = () => {
       return acc;
     }, {});
 
-
-    const [quantity, setQuantity] = useState(0);
-    
-    const handleQuantity = (type) => {
-        if(type === "dec"){
-            quantity >= 1 && setQuantity(quantity - 1);
-        } else {
-            setQuantity(quantity + 1);
-        }
-      };
   
     return (
       <Container>
@@ -211,11 +201,9 @@ const Cart = () => {
                     </ProductDetail>
                     <PriceDetail>
                       <ProductQuantityContainer>
-                      <Remove onClick={() => handleQuantity("dec")} />
                         <ProductQuantity> 
-                          {product.quantity} 
+                          QTY: {product.quantity} 
                         </ProductQuantity>
-                        <Add onClick={() => handleQuantity("inc")}/>
                       </ProductQuantityContainer>
                       <ProductPrice>
                         $ {product.total.toFixed(2)} 
