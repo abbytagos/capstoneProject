@@ -147,104 +147,110 @@ const Cart = () => {
     const user = useSelector(state => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
-
-    //CHECKOUT CLICK
+  
     const handleClick = (e) => {
-        e.preventDefault();
-        dispatch(resetErrMsg("Please provide your shipping information"));
-        if (user.currentUser?.username) {
-            navigate('/checkout');
-          } else {
-            navigate('/login');
-          }
-    
+      e.preventDefault();
+      dispatch(resetErrMsg("Please provide your shipping information"));
+      if (user.currentUser?.username) {
+        navigate('/checkout');
+      } else {
+        navigate('/login');
+      }
     };
-
-    const cart = useSelector(state => state.cart)
+  
+    const cart = useSelector(state => state.cart);
+    
+    // Group cart products by productid
+    const groupedCartProducts = cart.products.reduce((acc, product) => {
+      if (!acc[product._id]) {
+        acc[product._id] = {
+          ...product,
+          quantity: product.quantity,
+          total: product.price * product.quantity,
+        };
+      } else {
+        acc[product._id].quantity += product.quantity;
+        acc[product._id].total += product.price * product.quantity;
+      }
+      return acc;
+    }, {});
+  
     return (
-        <Container>
-            <Announcement />
-            <Navbar />
-            <Wrapper>
-                <Title>Your Bag</Title>
-                <Bottom>
-                    <Info>
-                        {cart.products.map((product) => ( 
-                        <Product>
-                            <ProductDetail>
-                                <Image src={product.img} />
-                                <Details>
-                                    <ProductName>
-                                        <b>Product:</b> {product.title} 
-                                    </ProductName>
-                                    <ProductId>
-                                        <b>ID:</b> {product._id} 
-                                    </ProductId>
-                                </Details>
-                            </ProductDetail>
-                            <PriceDetail>
-                                <ProductQuantityContainer>
-                                    <Add/>
-                                    <ProductQuantity> 
-                                        {product.quantity} 
-                                    </ProductQuantity>
-                                    <Remove/>
-                                </ProductQuantityContainer>
-                                <ProductPrice>
-                                    $ {product.price*product.quantity} 
-                                </ProductPrice>
-                            </PriceDetail>
-                        </Product> 
-                        ))}
-
-                        <Hr/>
-                    </Info>
-                    <Summary>
-                        <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-                        <SummaryItem>
-                            <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>
-                                $ {cart.total}
-                            </SummaryItemPrice>
-                        </SummaryItem>
-
-                        <SummaryItem>
-                            <SummaryItemText>Estimated Shipping</SummaryItemText>
-                            <SummaryItemPrice>
-                                $ 15.00
-                            </SummaryItemPrice>
-                        </SummaryItem>
-
-                        <SummaryItem>
-                            <SummaryItemText>Shipping Discount</SummaryItemText>
-                            <SummaryItemPrice>
-                            $ -15.00
-                            </SummaryItemPrice>
-                        </SummaryItem>
-
-                        <SummaryItem type="total">
-                            <SummaryItemText>Total</SummaryItemText>
-                            <SummaryItemPrice>
-                            $ {cart.total}
-                            </SummaryItemPrice>
-                        </SummaryItem>
-                        {!cart.total ? (
-                            <Error>Your Cart is Empty!</Error>
-                            ) : (
-                        <Button onClick={handleClick}> 
-                        CHECKOUT</Button>
-                        )}
-                    </Summary>
-
-                </Bottom>
-            </Wrapper>
-        </Container> 
+      <Container>
+        <Announcement />
+        <Navbar />
+        <Wrapper>
+          <Title>Your Bag</Title>
+          <Bottom>
+            <Info>
+              {Object.values(groupedCartProducts).map((product, index) => ( 
+                <div key={index}>
+                  <Product>
+                    <ProductDetail>
+                      {product.img && <Image src={product.img} />}
+                      <Details>
+                        <ProductName>
+                          <b>Product:</b> {product.title} 
+                        </ProductName>
+                        <ProductId>
+                          <b>ID:</b> {product._id} 
+                        </ProductId>
+                      </Details>
+                    </ProductDetail>
+                    <PriceDetail>
+                      <ProductQuantityContainer>
+                        <Add/>
+                        <ProductQuantity> 
+                          {product.quantity} 
+                        </ProductQuantity>
+                        <Remove/>
+                      </ProductQuantityContainer>
+                      <ProductPrice>
+                        $ {product.total.toFixed(2)} 
+                      </ProductPrice>
+                    </PriceDetail>
+                  </Product>
+                  {index === Object.keys(groupedCartProducts).length - 1 && <Hr/>}
+                </div>
+              ))}
+            </Info>
+            <Summary>
+              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+              <SummaryItem>
+                <SummaryItemText>Subtotal</SummaryItemText>
+                <SummaryItemPrice>
+                  $ {cart.total.toFixed(2)}
+                </SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem>
+                <SummaryItemText>Estimated Shipping</SummaryItemText>
+                <SummaryItemPrice>
+                  $ 15.00
+                </SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem>
+                <SummaryItemText>Shipping Discount</SummaryItemText>
+                <SummaryItemPrice>
+                  $ -15.00
+                </SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem type="total">
+                <SummaryItemText>Total</SummaryItemText>
+                <SummaryItemPrice>
+                  $ {cart.total.toFixed(2)}
+                </SummaryItemPrice>
+              </SummaryItem>
+              {!cart.total ? (
+                <Error>Your Cart is Empty!</Error>
+              ) : (
+                <Button onClick={handleClick}>CHECKOUT</Button>
+              )}
+            </Summary>
+          </Bottom>
+        </Wrapper>
+      </Container> 
     );
-
-}
-
-
-
+  }
+  
 
 export default Cart
