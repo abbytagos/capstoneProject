@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { resetErrMsg } from "../redux/userRedux";
+import { useEffect, useState } from "react";
 
 const Container = styled.div``;
 
@@ -174,6 +175,17 @@ const Cart = () => {
       }
       return acc;
     }, {});
+
+
+    const [quantity, setQuantity] = useState(0);
+    
+    const handleQuantity = (type) => {
+        if(type === "dec"){
+            quantity >= 1 && setQuantity(quantity - 1);
+        } else {
+            setQuantity(quantity + 1);
+        }
+      };
   
     return (
       <Container>
@@ -199,11 +211,11 @@ const Cart = () => {
                     </ProductDetail>
                     <PriceDetail>
                       <ProductQuantityContainer>
-                        <Add/>
+                      <Remove onClick={() => handleQuantity("dec")} />
                         <ProductQuantity> 
                           {product.quantity} 
                         </ProductQuantity>
-                        <Remove/>
+                        <Add onClick={() => handleQuantity("inc")}/>
                       </ProductQuantityContainer>
                       <ProductPrice>
                         $ {product.total.toFixed(2)} 
