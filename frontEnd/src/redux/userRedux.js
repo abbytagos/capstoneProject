@@ -62,6 +62,9 @@ const userSlice = createSlice({
     updatephoneNumber: (state, action) => {
       state.currentUser.phonenumber = action.payload;
     },
+    setlastLocation: (state, action) => {
+      state.lastLocation = action.payload;
+    },
   },
 });
 
@@ -78,7 +81,8 @@ export const {
   resetState,
   resetErrMsg,
   updatedeliveryAddress,
-  updatephoneNumber
+  updatephoneNumber,
+  setlastLocation
 } = userSlice.actions;
 
 export default userSlice.reducer;

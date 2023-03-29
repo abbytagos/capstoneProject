@@ -134,7 +134,9 @@ const EmailConfirmation = () => {
     sendmail(dispatch, { messageData, fromPage });
   }
 
-  console.log(user);
+  function handleReload() {
+    window.location.reload();
+  }
 
   return (
     <Container>
@@ -144,7 +146,7 @@ const EmailConfirmation = () => {
           <Title>You are not signed-in</Title>
           <HomeLink to="/login">Sign-In</HomeLink>
           <HomeLink to="/register">Not yet registered? Register</HomeLink>    
-          <HomeLink to="/">Back to Home</HomeLink>
+          <HomeLink to="/" onClick={handleReload}>Back to Home</HomeLink>
         </>
         ) : (
         <>

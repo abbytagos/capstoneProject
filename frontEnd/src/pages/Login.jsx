@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { loginFailure } from "../redux/userRedux";
 
 const Container = styled.div`
@@ -72,7 +72,8 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const { isEmailed, isFetching, error, currentUser } = useSelector((state) => state.user);
+    const navigate = useNavigate();
+    const user = useSelector(state => state.user);
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -82,10 +83,14 @@ const Login = () => {
             login(dispatch, { username, password });
         }
     };
-    
 
-    if (currentUser) {
-        return <Navigate to="/"/>
+    
+    function handleReload() {
+        //window.location.reload();
+      }
+
+    if (user.currentUser?.username) {
+        navigate(user.lastLocation);
     }
     
   return (
@@ -100,16 +105,16 @@ const Login = () => {
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}                
                 />
-                 <Button onClick={handleClick} disabled={isFetching}> 
+                 <Button onClick={handleClick}> 
                 LOGIN
                 </Button>
                 {
-                    error && <Error>{error}</Error>
+                    user.error && <Error>{user.error}</Error>
                 }
             </Form>
             <HomeLink to="/Register">Register Here</HomeLink>
             <br />
-            <HomeLink to="/">Back to Home</HomeLink>
+            <HomeLink to="/" onClick={handleReload}>Back to Home</HomeLink>
         </Wrapper>
     </Container>
    
