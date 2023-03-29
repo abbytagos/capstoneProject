@@ -144,16 +144,16 @@ const Error = styled.span`
 `;
 
 const Cart = () => {
-
+    const user = useSelector(state => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
+    // const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
 
     //CHECKOUT CLICK
     const handleClick = (e) => {
         e.preventDefault();
         dispatch(resetErrMsg("Please provide your shipping information"));
-        if (isLoggedIn) {
+        if (user.currentUser?.username) {
             navigate('/checkout');
           } else {
             navigate('/login');

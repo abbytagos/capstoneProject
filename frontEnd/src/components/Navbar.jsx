@@ -72,8 +72,6 @@ const Navbar = () => {
     const quantity = useSelector(state => state.cart.quantity)
 
     const isEmailed = useSelector((state) => state.user.isEmailed);
-    
-    const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -83,18 +81,18 @@ const Navbar = () => {
       dispatch(sendmailStart());
     }
 
-    if (!isLoggedIn) {
+    if (!user.currentUser?.username) {
         dispatch(resetState());
       }      
 
-    useEffect(() => {
-      if (!user.currentUser) {
-        if (!sessionStorage.getItem('reloaded')) {
-          sessionStorage.setItem('reloaded', true);
-          window.location.reload();
-        }
-      }
-    }, [user, navigate]);
+    // useEffect(() => {
+    //   if (!user.currentUser?.username) {
+    //     if (!sessionStorage.getItem('reloaded')) {
+    //       sessionStorage.setItem('reloaded', true);
+    //       window.location.reload();
+    //     }
+    //   }
+    // }, [user, navigate]);
   
 
       const handleLogout = () => {
@@ -133,8 +131,11 @@ const Navbar = () => {
               </Center>
             <Right>
 
-                  {!isLoggedIn ? (
+                  {!user.currentUser?.username ? (
                   <> 
+                  <MenuItem>
+                  <button onClick={handleShopmore}>CONTINUE SHOPPING</button>
+                  </MenuItem>
                     <MenuItem>
                       <button onClick={handleRegister}>REGISTER</button>
                     </MenuItem>
@@ -145,9 +146,6 @@ const Navbar = () => {
                 ) : (
                   <>
                   Welcome {user.currentUser.firstname}
-                  <MenuItem>
-                  <button onClick={handleShopmore}>CONTINUE SHOPPING</button>
-                  </MenuItem>
                   <MenuItem>
                   <button onClick={handleLogout}>LOG OUT</button>
                 </MenuItem>

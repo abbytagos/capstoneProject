@@ -104,12 +104,14 @@ const Checkout = () => {
       setLastname(user.currentUser?.lastname);
       setDeliveryaddress(user.currentUser?.deliveryaddress || ""); // set initial value to empty string if undefined
       setPhonenumber(user.currentUser?.phonenumber || ""); // set initial value to empty string if undefined
+    } else {
+      navigate('/login')
     }
   
     if (cart && cart.products) {
       showTotal(cart.total);
     }
-  }, [user, cart]);
+  }, [user, cart, navigate]);
   
 
   const handleClick = (e) => {
@@ -142,8 +144,8 @@ const Checkout = () => {
             tot: total 
             })
       };
-      const location = useLocation();
-      sendmail(dispatch, { messageData, location });
+      const fromPage = "Checkout";
+      sendmail(dispatch, { messageData, fromPage });
       dispatch(
         sendmailSuccess({
           username,
@@ -163,6 +165,12 @@ const Checkout = () => {
   return (
     <Container>
         <Wrapper>
+        {!user.currentUser?.username ? (
+        <>
+          <Title>You are not logged-in. Redirecting...</Title>
+        </>
+        ) : (
+          <>
             <Title>SHIPPING INFORMATION</Title>
             <Form>
                 <DisplayValue>EMAIL: {email}</DisplayValue>
@@ -170,7 +178,7 @@ const Checkout = () => {
                 <Input placeholder="Last Name" value={lastname} onChange={(e) => setLastname(e.target.value)} />
                 <Input placeholder="Delivery Address" onChange={(e) => setDeliveryaddress(e.target.value)} />
                 <Input placeholder="(Area Code) (Number)" onChange={(e) => setPhonenumber(e.target.value)} />
-                <DisplayValue>TOTAL: $ {total}</DisplayValue>
+                <DisplayValue>TOTAL: $ {Number(total).toFixed(2)}</DisplayValue>
                 <Button onClick={handleClick}> 
                 CONFIRM
                 </Button>
@@ -180,6 +188,8 @@ const Checkout = () => {
                 <input type="hidden" name="username" value={username} />
             </Form>
             <HomeLink to="/">Back to Home</HomeLink>
+          </>
+          )}
         </Wrapper>
     </Container>
   )

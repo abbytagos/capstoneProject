@@ -72,12 +72,10 @@ const HomeLink = styled(Link)`
 const EmailConfirmation = () => {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
+  
   const navigate = useNavigate();
-
-  const isLoggedIn = useSelector(state => state.user.currentUser) == null ? false : true;
-
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!user.currentUser?.username) {
       navigate('/login');
     }
   }, [user, navigate]);
@@ -148,7 +146,7 @@ const EmailConfirmation = () => {
   return (
     <Container>
       <Wrapper>
-      {!isLoggedIn ? (
+      {!user.currentUser?.username ? (
         <>
           <Title>You are not logged-in. Redirecting...</Title>
         </>
