@@ -1,11 +1,8 @@
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReactDOMServer from "react-dom/server";
 import { sendmail } from "../redux/apiCalls";
-import { Navigate } from 'react-router-dom';
-import { useEffect } from "react";
-import { useLocation } from 'react-router';
 
 const Container = styled.div`
   width: 100vw;
@@ -72,15 +69,10 @@ const HomeLink = styled(Link)`
 const EmailConfirmation = () => {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
-  
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!user.currentUser?.username) {
-      navigate('/login');
-    }
-  }, [user, navigate]);
 
+  const dispatch = useDispatch();
 
+  const isLoggedIn = (user === null && cart === null) ? false : true;
 
   let products = [];
   let totalPrice = 0;
@@ -91,7 +83,7 @@ const EmailConfirmation = () => {
       products.push(product);
       totalPrice += product.price * product.quantity;
     }
-  }
+  } 
 
   const emailBody = ReactDOMServer.renderToString(
     <Container>
@@ -136,19 +128,23 @@ const EmailConfirmation = () => {
   };
   
   // Send email using Mailgun API
-  //const location = useLocation();
-  //const dispatch = useDispatch();
-  if (user.currentUser?.username) {
+  const fromPage = "Email Confirmation";
+  if (user.currentUser?.username && user.currentUser?.email) {
     console.log("sending email debug");
-    //sendmail(dispatch, { messageData, location });
+    sendmail(dispatch, { messageData, fromPage });
   }
+
+  console.log(user);
 
   return (
     <Container>
       <Wrapper>
-      {!user.currentUser?.username ? (
+      {!isLoggedIn ? (
         <>
-          <Title>You are not logged-in. Redirecting...</Title>
+          <Title>You are not signed-in</Title>
+          <HomeLink to="/login">Sign-In</HomeLink>
+          <HomeLink to="/register">Not yet registered? Register</HomeLink>    
+          <HomeLink to="/">Back to Home</HomeLink>
         </>
         ) : (
         <>

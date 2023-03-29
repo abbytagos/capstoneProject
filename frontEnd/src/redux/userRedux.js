@@ -40,10 +40,9 @@ const userSlice = createSlice({
       state.isFetching = true;
       state.isEmailed = false;
     },
-    sendmailSuccess: (state, action) => {
+    sendmailSuccess: (state) => {
       state.isEmailed = true;
       state.isFetching = false;
-      state.currentUser = action.payload;
     },
     sendmailFailure: (state, action) => {
       state.isFetching = false;
@@ -54,9 +53,15 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.error = null;
     },
-    resetErrMsg (state, action) {
+    resetErrMsg: (state, action) => {
       state.error = action.payload;
-    }
+    },
+    updatedeliveryAddress: (state, action) => {
+      state.currentUser.deliveryaddress = action.payload;
+    },
+    updatephoneNumber: (state, action) => {
+      state.currentUser.phonenumber = action.payload;
+    },
   },
 });
 
@@ -71,7 +76,9 @@ export const {
   sendmailSuccess,
   sendmailFailure,
   resetState,
-  resetErrMsg
+  resetErrMsg,
+  updatedeliveryAddress,
+  updatephoneNumber
 } = userSlice.actions;
 
 export default userSlice.reducer;

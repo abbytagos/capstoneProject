@@ -87,9 +87,7 @@ const Navbar = () => {
 
       const handleLogout = () => {
         dispatch(resetState());
-        window.location.reload();
         dispatch(resetCart()); 
-        window.location.reload();
         navigate('/');
       };
 

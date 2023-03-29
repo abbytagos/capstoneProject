@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { sendmailFailure, sendmailSuccess } from "../redux/userRedux";
 import { sendmail } from "../redux/apiCalls";
 import { useLocation } from 'react-router';
+import { updatedeliveryAddress, updatephoneNumber } from "../redux/userRedux";
 
 const Container = styled.div`
     width: 100vw;
@@ -97,12 +98,12 @@ const Checkout = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    if (user && user.currentUser && user.currentUser.email && user.currentUser.username) {
+    if  (user.currentUser?.email && user.currentUser?.username) {
       setUsername(user.currentUser.username);
       showEmail(user.currentUser?.email);
       setFirstname(user.currentUser?.firstname);
       setLastname(user.currentUser?.lastname);
-      setDeliveryaddress(user.currentUser?.deliveryaddress || ""); // set initial value to empty string if undefined
+      setDeliveryaddress(user.currentUser?.deliveryaddress || ""); // use setDeliveryaddress instead of setdeliveryAddress
       setPhonenumber(user.currentUser?.phonenumber || ""); // set initial value to empty string if undefined
     } else {
       navigate('/login')
@@ -116,12 +117,15 @@ const Checkout = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
+
+    console.log("del:"+deliveryaddress);
+    console.log("ph:"+phonenumber);
   
     if (
       deliveryaddress.trim() === "" ||
       phonenumber.trim() === "" ||
-      deliveryaddress === null ||
-      phonenumber === null
+      deliveryaddress.trim() === "" ||
+      phonenumber.trim() === ""
     ) {
       console.log("ERROR");
       dispatch(
@@ -146,17 +150,9 @@ const Checkout = () => {
       };
       const fromPage = "Checkout";
       sendmail(dispatch, { messageData, fromPage });
-      dispatch(
-        sendmailSuccess({
-          username,
-          firstname,
-          lastname,
-          email,
-          deliveryaddress,
-          phonenumber,
-          total
-        }) 
-      );
+      dispatch(sendmailSuccess());
+      dispatch(updatedeliveryAddress(deliveryaddress));
+      dispatch(updatephoneNumber(phonenumber));
       navigate("/emailconfirmation");
     }
   };
