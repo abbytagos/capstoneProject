@@ -85,16 +85,6 @@ const Navbar = () => {
         dispatch(resetState());
       }      
 
-    // useEffect(() => {
-    //   if (!user.currentUser?.username) {
-    //     if (!sessionStorage.getItem('reloaded')) {
-    //       sessionStorage.setItem('reloaded', true);
-    //       window.location.reload();
-    //     }
-    //   }
-    // }, [user, navigate]);
-  
-
       const handleLogout = () => {
         dispatch(resetState());
         window.location.reload();
@@ -130,12 +120,8 @@ const Navbar = () => {
                 </Link>
               </Center>
             <Right>
-
                   {!user.currentUser?.username ? (
                   <> 
-                  <MenuItem>
-                  <button onClick={handleShopmore}>CONTINUE SHOPPING</button>
-                  </MenuItem>
                     <MenuItem>
                       <button onClick={handleRegister}>REGISTER</button>
                     </MenuItem>
@@ -151,7 +137,9 @@ const Navbar = () => {
                 </MenuItem>
                   </>
                 )}
-
+                <MenuItem>
+                  <button onClick={handleShopmore}>CONTINUE SHOPPING</button>
+                  </MenuItem>
                 <Link to="/cart" >
                 <MenuItem>
                     <Badge badgeContent={quantity} color="primary">

@@ -112,7 +112,10 @@ const Product = () => {
 
   const handleClick = () => {
     //UPDATE CART
-    dispatch(addProduct({ ...product, quantity })); //product quantity NOT cart
+    if (quantity !== 0 ) {
+        dispatch(addProduct({ ...product, quantity })); //product quantity NOT cart
+    } 
+    
     if(!isLoggedIn) { navigate("/products"); };
   };
  
