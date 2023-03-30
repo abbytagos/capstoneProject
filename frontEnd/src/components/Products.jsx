@@ -38,8 +38,11 @@ const Products = ({ cat }) => {
   return (
     <Container>
       {products.map((item) => (
-        <Product item={item} key={item.id} />
+        <span key={item.id}> <Product item={item} /> </span>
       ))}
+      {/* {products.map((item) => (
+        <Product item={item} key={item.id} />
+      ))} */}
     </Container>
   );
 };

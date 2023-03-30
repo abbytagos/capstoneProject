@@ -81,9 +81,15 @@ const Navbar = () => {
       dispatch(sendmailStart());
     }
 
-    if (!user.currentUser?.username) {
-        dispatch(resetState());
-      }      
+    useEffect(()=> {
+      if (!user.currentUser?.username) {
+              dispatch(resetState());
+      }
+  }, [
+      user.currentUser?.username,
+      dispatch,
+      resetState
+      ])
 
       const handleLogout = () => {
         dispatch(resetState());

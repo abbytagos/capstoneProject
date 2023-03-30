@@ -2,6 +2,7 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material"
 import { useState } from "react";
 import styled from "styled-components"
 import { sliderItems } from "../data";
+import { useNavigate } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -80,6 +81,7 @@ const Button = styled.button`
 `;  
 
 const Slider = () => {
+    const navigate = useNavigate();
     const [slideIndex, setSlideIndex] = useState(0);
     const handleClick = (direction) => {
 
@@ -89,6 +91,10 @@ const Slider = () => {
             setSlideIndex(slideIndex <2 ? slideIndex +1 : 0)
         }
 
+    } 
+
+    const handleShopNow = () => {
+        navigate('/products');
     } 
   
     return (
@@ -107,7 +113,7 @@ const Slider = () => {
                         <Desc>
                             {item.desc}
                         </Desc>
-                        <Button>SHOP NOW</Button>
+                        <Button onClick={handleShopNow}>SHOP NOW</Button>
                     </InfoContainer>
                 </Slide>
             ))}
