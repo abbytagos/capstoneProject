@@ -143,7 +143,7 @@ const Navbar = () => {
                   </>
                 )}
                 <MenuItem>
-                  <button onClick={handleShopmore}>CONTINUE SHOPPING</button>
+                  <button onClick={handleShopmore}>SHOP</button>
                   </MenuItem>
                 <Link to="/cart" >
                 <MenuItem>
