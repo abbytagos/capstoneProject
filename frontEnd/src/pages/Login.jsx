@@ -84,13 +84,9 @@ const Login = () => {
         }
     };
 
-    
-    function handleReload() {
-        //window.location.reload();
-      }
 
     if (user.currentUser?.username) {
-        navigate(user.lastLocation);
+        navigate("/");
     }
     
   return (
@@ -114,7 +110,7 @@ const Login = () => {
             </Form>
             <HomeLink to="/Register">Register Here</HomeLink>
             <br />
-            <HomeLink to="/" onClick={handleReload}>Back to Home</HomeLink>
+            <HomeLink to="/">Back to Home</HomeLink>
         </Wrapper>
     </Container>
    

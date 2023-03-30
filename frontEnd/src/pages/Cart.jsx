@@ -149,13 +149,9 @@ const Cart = () => {
     const user = useSelector(state => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-  
-    const location = useLocation();
 
     const handleClick = (e) => {
       e.preventDefault();
-   
-      dispatch(setlastLocation(location.pathname));
 
       dispatch(resetErrMsg("Please provide your shipping information"));
       if (user.currentUser?.username) {
