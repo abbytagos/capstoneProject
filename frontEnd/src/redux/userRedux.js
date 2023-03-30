@@ -54,6 +54,7 @@ const userSlice = createSlice({
       state.error = null;
     },
     resetErrMsg: (state, action) => {
+      state.isFetching = false;
       state.error = action.payload;
     },
     updatedeliveryAddress: (state, action) => {

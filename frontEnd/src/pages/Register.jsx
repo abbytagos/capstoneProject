@@ -3,10 +3,10 @@ import { Link, Navigate } from 'react-router-dom';
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { register } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
-import { registerFailure } from "../redux/userRedux";
+import { registerFailure, resetErrMsg } from "../redux/userRedux";
 
 const Container = styled.div`
     width: 100vw;
@@ -80,6 +80,13 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const dispatch = useDispatch();
     const { isEmailed, isFetching, error, currentUser } = useSelector((state) => state.user);
+
+    useEffect(()=> {
+        dispatch(resetErrMsg(" "))
+    }, [
+        dispatch,
+        resetErrMsg
+        ]);
 
     const handleClick = (e) => {
         e.preventDefault();

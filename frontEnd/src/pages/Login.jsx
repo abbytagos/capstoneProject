@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { loginFailure } from "../redux/userRedux";
+import { loginFailure, resetErrMsg } from "../redux/userRedux";
 
 const Container = styled.div`
     width: 100vw;
@@ -74,6 +74,13 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector(state => state.user);
+
+    useEffect(()=> {
+        dispatch(resetErrMsg(" "))
+    }, [
+        dispatch,
+        resetErrMsg
+        ]);
 
     const handleClick = (e) => {
         e.preventDefault();

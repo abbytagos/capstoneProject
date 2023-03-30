@@ -153,7 +153,7 @@ const Cart = () => {
     const handleClick = (e) => {
       e.preventDefault();
 
-      dispatch(resetErrMsg("Please provide your shipping information"));
+      dispatch(resetErrMsg(" "));
       if (user.currentUser?.username) {
         navigate('/checkout');
       } else {
